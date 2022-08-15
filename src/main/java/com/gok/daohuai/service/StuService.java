@@ -20,7 +20,7 @@ public class StuService {
     String resource = "mybatis-config.xml";
     InputStream inputStream = Resources.getResourceAsStream(resource);
     SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession();
+    SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
     Scanner scanner = new Scanner(System.in);
 
@@ -29,43 +29,47 @@ public class StuService {
     }
 
     public void manage() {
-        System.out.println("student manage system");
-        System.out.println("select the Funciton");
-        System.out.println("1.login");
-        System.out.println("2.register");
-        System.out.println("3.quit");
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        switch (choice) {
-            case 1:
-                if (login() != 0) {
-                    System.out.println("login success");
-                    System.out.println("select the Funciton");
-                    System.out.println("1.个人信息查询");
-                    System.out.println("2.个人基础信息修改");
-                    System.out.println("3.全部课程列表查看");
-                    System.out.println("4.选课");
-                    System.out.println("5.已选课程查询");
-                    System.out.println("6.退出");
-                    int choice2 = sc.nextInt();
-                    operation(choice2);
+        while (true) {
+            System.out.println("student manage system");
+            System.out.println("select the Funciton");
+            System.out.println("1.login");
+            System.out.println("2.register");
+            System.out.println("3.quit");
+            Scanner sc = new Scanner(System.in);
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    if (login() != 0) {
+                        while (true) {
+                            System.out.println("login success");
+                            System.out.println("select the Funciton");
+                            System.out.println("1.个人信息查询");
+                            System.out.println("2.个人基础信息修改");
+                            System.out.println("3.全部课程列表查看");
+                            System.out.println("4.选课");
+                            System.out.println("5.已选课程查询");
+                            System.out.println("6.退出");
+                            int choice2 = sc.nextInt();
+                            operation(choice2);
+                        }
 
-                } else {
-                    System.out.println("login failed");
-                }
+                    } else {
+                        System.out.println("login failed");
+                    }
 
-                break;
-            case 2:
-                register();
-                break;
-            case 3:
-                System.out.println("quit");
-                System.exit(0);
-                break;
-            default:
-                System.out.println("please input 1,2,3");
-                break;
+                    break;
+                case 2:
+                    register();
+                    break;
+                case 3:
+                    System.out.println("quit");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("please input 1,2,3");
+                    break;
 
+            }
         }
     }
 
@@ -146,6 +150,7 @@ public class StuService {
                 System.out.println("已选课程查询");
                 System.out.println("请输入学号");
                 long id4 = scanner.nextLong();
+
                 List<Course> courses2 = sqlSession.getMapper(StuMapper.class).selectCourse(id4);
                 for (Course course : courses2) {
                     System.out.println(course);

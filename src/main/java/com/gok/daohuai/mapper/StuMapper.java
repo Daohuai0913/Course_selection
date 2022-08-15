@@ -20,5 +20,5 @@ public interface StuMapper {
 
     List<Course> selectCourse(@Param("stuId") long stuId);
 
-    void choseCourse(@Param("stuId") long stuId, @Param("courseId") long courseId);
+    void choseCourse(@Param("stuId") long stuId, @Param("courseNo") long courseNo);
 }

@@ -8,7 +8,7 @@
         insert into test.t_student(password, age, gender, address, phone) VALUES (#{password},#{age},#{gender},#{address},#{phone})
     </insert>
     <insert id="choseCourse">
-        insert into test.t_course_student(test.t_course_student.courseNo, test.t_course_student.stuId) VALUES (#{course_id},#{stuId})
+        insert into test.t_course_student(test.t_course_student.courseNo, test.t_course_student.stuId) VALUES (#{courseNo},#{stuId})
     </insert>
     <update id="updateStudent">
         update test.t_student set password=#{password} ,age = #{age} , gender = #{gender}, address = #{address}, phone = #{phone} where StuId = #{id}
@@ -23,6 +23,6 @@
         select * from test.t_course
     </select>
     <select id="selectCourse" resultType="com.gok.daohuai.pojo.Course">
-        select * from test.t_course where test.t_course_student.stuId = #{stuId} and test.t_course_student.courseNo = #{courseId}
+        select * from test.t_course ,test.t_course_student ,test.t_student where test.t_course_student.stuId = #{stuId} and test.t_course_student.courseNo = t_course.courseNo and test.t_course_student.stuId = test.t_student.stuId
     </select>
 </mapper>
