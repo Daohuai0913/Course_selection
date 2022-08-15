@@ -155,7 +155,7 @@ public class TeacherService {
                     int applyNum2 = scanner.nextInt();
                     System.out.println("课程老师id");
                     long teacherId3 = scanner.nextLong();
-                    sqlSession.getMapper(TeacherMapper.class).updateCourse(courseId2, courseName2, desc2, maxNum2, applyNum2);
+                    sqlSession.getMapper(TeacherMapper.class).updateCourse(courseId2, courseName2, desc2, maxNum2, applyNum2,teacherId3);
 
                     break;
                 case 6:

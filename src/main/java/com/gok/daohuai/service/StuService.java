@@ -119,15 +119,15 @@ public class StuService {
                 System.out.println("请输入学号");
                 long id2 = scanner.nextLong();
                 System.out.println("passwd");
-                String password = scanner.nextLine();
+                String password = scanner.next();
                 System.out.println("age");
-                int age = scanner.nextInt();
+                int age = Integer.parseInt(scanner.next());
                 System.out.println("gender");
-                String gender = scanner.nextLine();
+                String gender = scanner.next();
                 System.out.println("address");
-                String address = scanner.nextLine();
+                String address = scanner.next();
                 System.out.println("phone");
-                String phone = scanner.nextLine();
+                String phone = scanner.next();
                 sqlSession.getMapper(StuMapper.class).updateStudent(password, age, gender, address, phone, id2);
                 break;
             case 3:

@@ -19,7 +19,7 @@ public interface TeacherMapper {
 
     Course getcourse(@Param("courseId") long teacherId);
 
-    void updateCourse(@Param("courseId") long courseId,@Param("courseName") String courseName,@Param("desc") String desc,@Param("maxNum") int maxNum,@Param("applyNum") int applyNum);
+    void updateCourse(@Param("courseId") long courseId,@Param("courseName") String courseName,@Param("desc") String desc,@Param("maxNum") int maxNum,@Param("applyNum") int applyNum,@Param("teacherId") long teacherId);
 
 
 }
