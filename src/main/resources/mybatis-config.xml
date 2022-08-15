@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--  开启自动驼峰命名规则映射  -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+<!--        给类起个别名-->
+        <package name="com.gok.daohuai.pojo"/>
+    </typeAliases>
+    <!--
+    environments 配置数据库环境连接信息 可以配置多个环境
+    通过default-environment切换不同的环境 即连接不同的数据库
+    -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+<!--                数据连接信息-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://ce2.huai0913.me/test?useSSl=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="huai0913"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+<!--        加载sql的映射文件-->
+<!--        <mapper resource="org/mybatis/example/BlogMapper.xml"/>-->
+<!--        <mapper resource="com/gok/daohuai/mapper/UserMapper.xml"/>-->
+        
+<!--        mapper代理的方式-->
+        <package name="com.gok.daohuai.mapper"/>
+    </mappers>
+
+
+
+</configuration>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gok.daohuai.mapper.StuMapper">
+    <insert id="insertStudent">
+        insert into test.t_student(password, age, gender, address, phone) VALUES (#{password},#{age},#{gender},#{address},#{phone})
+    </insert>
+    <insert id="choseCourse">
+        insert into test.t_course_student(test.t_course_student.courseNo, test.t_course_student.stuId) VALUES (#{course_id},#{stuId})
+    </insert>
+    <update id="updateStudent">
+        update test.t_student set password=#{password} ,age = #{age} , gender = #{gender}, address = #{address}, phone = #{phone} where StuId = #{id}
+    </update>
+    <select id="login" resultType="com.gok.daohuai.pojo.Student">
+        select * from test.t_student where test.t_student.stuId = #{stuId} and password = #{password}
+    </select>
+    <select id="selectStudent" resultType="com.gok.daohuai.pojo.Student">
+        select * from test.t_student where test.t_student.stuId = #{stuId}
+    </select>
+    <select id="selectAllCourse" resultType="com.gok.daohuai.pojo.Course">
+        select * from test.t_course
+    </select>
+    <select id="selectCourse" resultType="com.gok.daohuai.pojo.Course">
+        select * from test.t_course where test.t_course_student.stuId = #{stuId} and test.t_course_student.courseNo = #{courseId}
+    </select>
+</mapper>
