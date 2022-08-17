@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +28,8 @@ public class StuService {
 
     public StuService() throws IOException {
     }
+
+    Student student = new Student();
 
     public void manage() {
         while (true) {
@@ -141,9 +144,12 @@ public class StuService {
                 System.out.println("选课");
                 System.out.println("请输入学号");
                 long id3 = scanner.nextLong();
-                System.out.println("请输入课程号");
-                long courseId = scanner.nextLong();
-                sqlSession.getMapper(StuMapper.class).choseCourse(id3, courseId);
+//                System.out.println("请输入课程号");
+//                long courseId = scanner.nextLong();
+//                sqlSession.getMapper(StuMapper.class).choseCourse(id3, courseId);
+                List<Course> courseList = sqlSession.getMapper(StuMapper.class).getCourseByLimit(id3);
+                System.out.println(courseList);
+
 
                 break;
             case 5:

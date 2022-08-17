@@ -5,49 +5,58 @@
 
 <mapper namespace="com.gok.daohuai.mapper.TeacherMapper">
     <insert id="insertTeacher">
-        insert into test.t_teacher (
-            teacherName,
-            password,
-            realName,
-            gender,
-            state
-        ) values (
-            #{teacherName},
-            #{password},
-            #{realName},
-            #{gender},
-            #{state}
-        )
+        insert into test.t_teacher (teacherName,
+                                    password,
+                                    realName,
+                                    gender,
+                                    state)
+        values (#{teacherName},
+                #{password},
+                #{realName},
+                #{gender},
+                #{state})
     </insert>
     <insert id="insertClass">
-        insert into test.t_course (
-            courseName,
-            maxNum,
-            applyNum,
-            teacherId,
-            `desc`
-
-        ) values (
-            #{courseName},
-            #{maxNum},
-            #{applyNum},
-            #{teacherId},
-            #{desc}
-        )
+        insert into test.t_course (courseName,
+                                   maxNum,
+                                   applyNum,
+                                   teacherId,
+                                   `desc`)
+        values (#{courseName},
+                #{maxNum},
+                #{applyNum},
+                #{teacherId},
+                #{desc})
     </insert>
     <update id="updatePassword">
-        update test.t_teacher set password = #{password} where teacherName = #{teacherName}
+        update test.t_teacher
+        set password = #{password}
+        where teacherName = #{teacherName}
     </update>
     <update id="updateCourse">
-        update test.t_course set courseName = #{courseName}, maxNum = #{maxNum}, applyNum = #{applyNum}, teacherId = #{teacherId}, `desc` = #{desc} where courseno = #{courseId}
+        update test.t_course
+        set courseName = #{courseName},
+            maxNum     = #{maxNum},
+            applyNum   = #{applyNum},
+            teacherId  = #{teacherId},
+            `desc`     = #{desc}
+        where courseno = #{courseId}
     </update>
     <select id="login" resultType="com.gok.daohuai.pojo.Teacher">
-        select * from test.t_teacher where teacherName = #{teacherName} and password = #{password}
+        select *
+        from test.t_teacher
+        where teacherName = #{teacherName}
+          and password = #{password}
+          and state = 1;
     </select>
     <select id="getcourseList" resultType="com.gok.daohuai.pojo.Course">
-        select * from test.t_course where teacherId = #{teacherId}
+        select *
+        from test.t_course
+        where teacherId = #{teacherId}
     </select>
     <select id="getcourse" resultType="com.gok.daohuai.pojo.Course">
-        select * from test.t_course where courseNo = #{courseId}
+        select *
+        from test.t_course
+        where courseNo = #{courseId}
     </select>
 </mapper>
