@@ -9,7 +9,7 @@ public class TestDemo {
 
     Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         System.out.println("欢迎来到学生选课系统");
         System.out.println("请选择您的身份：");
         System.out.println("1.学生");
@@ -27,6 +27,9 @@ public class TestDemo {
             case 3:
                 System.out.println("quit");
                 System.exit(0);
+                break;
+            default:
+                System.out.println("please input 1,2,3");
                 break;
 
         }

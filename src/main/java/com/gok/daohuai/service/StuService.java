@@ -81,6 +81,8 @@ public class StuService {
         long id = scanner.nextLong();
         System.out.println("input your password");
         String password = scanner.next();
+        student.setStudentId(id);
+        student.setPassword(password);
         sqlSession.getMapper(StuMapper.class).login(id, password);
         return sqlSession.getMapper(StuMapper.class).login(id, password).size();
 
@@ -99,11 +101,11 @@ public class StuService {
         String gender = scanner.nextLine();
         String address = scanner.nextLine();
         String phone = scanner.nextLine();
-        student.setPassword(password);
-        student.setAge(age);
-        student.setGender(gender);
-        student.setAddress(address);
-        student.setPhone(phone);
+//        student.setPassword(password);
+//        student.setAge(age);
+//        student.setGender(gender);
+//        student.setAddress(address);
+//        student.setPhone(phone);
         sqlSession.getMapper(StuMapper.class).insertStudent(password, age, gender, address, phone);
 
 
@@ -119,8 +121,8 @@ public class StuService {
                 break;
             case 2:
                 System.out.println("个人基础信息修改");
-                System.out.println("请输入学号");
-                long id2 = scanner.nextLong();
+//                System.out.println("请输入学号");
+//                long id2 = scanner.nextLong();
                 System.out.println("passwd");
                 String password = scanner.next();
                 System.out.println("age");
@@ -131,7 +133,7 @@ public class StuService {
                 String address = scanner.next();
                 System.out.println("phone");
                 String phone = scanner.next();
-                sqlSession.getMapper(StuMapper.class).updateStudent(password, age, gender, address, phone, id2);
+                sqlSession.getMapper(StuMapper.class).updateStudent(password, age, gender, address, phone, student.getStudentId());
                 break;
             case 3:
                 System.out.println("全部课程列表查看");
@@ -143,7 +145,7 @@ public class StuService {
             case 4:
                 System.out.println("选课");
                 System.out.println("请输入学号");
-                long id3 = scanner.nextLong();
+                long id3 = student.getStudentId();
 //                System.out.println("请输入课程号");
 //                long courseId = scanner.nextLong();
 //                sqlSession.getMapper(StuMapper.class).choseCourse(id3, courseId);
@@ -155,7 +157,7 @@ public class StuService {
             case 5:
                 System.out.println("已选课程查询");
                 System.out.println("请输入学号");
-                long id4 = scanner.nextLong();
+                long id4 = student.getStudentId();
 
                 List<Course> courses2 = sqlSession.getMapper(StuMapper.class).selectCourse(id4);
                 for (Course course : courses2) {

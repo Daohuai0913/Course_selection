@@ -21,11 +21,15 @@ public class TeacherService {
 
     Scanner scanner = new Scanner(System.in);
 
+    Teacher teacher = new Teacher();
+
     public TeacherService() throws IOException {
     }
 
+    boolean flag = true;
 
-    public void manage() {
+
+    public void manage() throws Exception {
         while (true) {
             System.out.println("student manage system");
             System.out.println("select the Funciton");
@@ -34,11 +38,12 @@ public class TeacherService {
             System.out.println("3.quit");
             Scanner sc = new Scanner(System.in);
             int choice = sc.nextInt();
+
             switch (choice) {
                 case 1:
 //                login();
                     if (login() != 0) {
-                        while (true){
+                        while (flag) {
                             System.out.println("login success");
                             System.out.println("select the Funciton");
                             System.out.println("1 修改密码");
@@ -49,6 +54,7 @@ public class TeacherService {
                             System.out.println("6 退出登陆");
                             int choice2 = sc.nextInt();
                             operation(choice2);
+
                         }
 
 
@@ -83,20 +89,31 @@ public class TeacherService {
         String password = scanner.nextLine();
         String realName = scanner.nextLine();
         String gender = scanner.nextLine();
-        teacher.setTeacherName(teacherName);
-        teacher.setPassword(password);
-        teacher.setRealName(realName);
-        teacher.setGender(gender);
-        sqlSession.getMapper(TeacherMapper.class).insertTeacher(teacher.getTeacherName(), teacher.getPassword(), teacher.getRealName(), teacher.getGender(), 1);
+//        teacher.setTeacherName(teacherName);
+//        teacher.setPassword(password);
+//        teacher.setRealName(realName);
+//        teacher.setGender(gender);
+        sqlSession.getMapper(TeacherMapper.class).insertTeacher(teacherName, password, realName, gender, 1);
 
     }
 
-    private int login() {
+    private int login() throws Exception {
         System.out.println("请输入信息");
         System.out.println("Name 用户名");
         System.out.println("passwd");
         String teacherName = scanner.nextLine();
         String password = scanner.nextLine();
+        List<Teacher> teachers = sqlSession.getMapper(TeacherMapper.class).login(teacherName, password);
+//        System.out.println(teachers);
+        if (teachers != null) {
+            teacher.setTeacherName(teachers.get(0).getTeacherName());
+            teacher.setPassword(teachers.get(0).getPassword());
+            teacher.setRealName(teachers.get(0).getRealName());
+            teacher.setGender(teachers.get(0).getGender());
+            teacher.setTeacherId(teachers.get(0).getTeacherId());
+        }else {
+            return 0;
+        }
 //        sqlSession.getMapper(TeacherMapper.class).login(teacherName, password);
         return sqlSession.getMapper(TeacherMapper.class).login(teacherName, password).size();
     }
@@ -120,14 +137,16 @@ public class TeacherService {
                     int maxNum = scanner.nextInt();
                     System.out.println("课程申请人数");
                     int applyNum = scanner.nextInt();
-                    System.out.println("课程老师id");
-                    long teacherId = scanner.nextLong();
+//                    System.out.println("课程老师id");
+//                    long teacherId = scanner.nextLong();
+                    long teacherId = teacher.getTeacherId();
                     sqlSession.getMapper(TeacherMapper.class).insertClass(courseName, maxNum, applyNum, teacherId, desc);
                     break;
                 case 3:
                     System.out.println("已发布课程");
-                    System.out.println("发布课程的老师id");
-                    long teacherId2 = scanner.nextLong();
+//                    System.out.println("发布课程的老师id");
+//                    long teacherId2 = scanner.nextLong();
+                    long teacherId2 = teacher.getTeacherId();
                     List<Course> teacherList = sqlSession.getMapper(TeacherMapper.class).getcourseList(teacherId2);
                     for (int j = 0; j < teacherList.size(); j++) {
                         System.out.println(teacherList.get(j));
@@ -153,13 +172,16 @@ public class TeacherService {
                     int maxNum2 = scanner.nextInt();
                     System.out.println("课程申请人数");
                     int applyNum2 = scanner.nextInt();
-                    System.out.println("课程老师id");
-                    long teacherId3 = scanner.nextLong();
-                    sqlSession.getMapper(TeacherMapper.class).updateCourse(courseId2, courseName2, desc2, maxNum2, applyNum2,teacherId3);
+//                    System.out.println("课程老师id");
+//                    long teacherId3 = scanner.nextLong();
+                    long teacherId3 = teacher.getTeacherId();
+
+                    sqlSession.getMapper(TeacherMapper.class).updateCourse(courseId2, courseName2, desc2, maxNum2, applyNum2, teacherId3);
 
                     break;
                 case 6:
                     System.out.println("退出");
+                    flag = false;
                     break;
                 default:
                     System.out.println("please input 1,2,3,4,5,6");

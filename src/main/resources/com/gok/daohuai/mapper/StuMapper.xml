@@ -34,7 +34,7 @@
     </select>
     <select id="selectAllCourse" resultType="com.gok.daohuai.pojo.Course">
         select *
-        from test.t_course
+        from test.t_course where t_course.maxNum > t_course.applyNum
     </select>
     <select id="selectCourse" resultType="com.gok.daohuai.pojo.Course">
         select *
