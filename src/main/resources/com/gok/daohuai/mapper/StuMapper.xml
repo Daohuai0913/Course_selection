@@ -12,6 +12,10 @@
         insert into test.t_course_student(test.t_course_student.courseNo, test.t_course_student.stuId)
         VALUES (#{courseNo}, #{stuId})
     </insert>
+    <insert id="insertCourse">
+        insert into test.t_course_student(test.t_course_student.courseNo, test.t_course_student.stuId)
+        VALUES (#{courseNo}, #{stuId})
+    </insert>
     <update id="updateStudent">
         update test.t_student
         set password=#{password},
@@ -20,6 +24,11 @@
             address = #{address},
             phone   = #{phone}
         where StuId = #{id}
+    </update>
+    <update id="updateApplyNum">
+        update test.t_course
+        set applyNum = applyNum + 1
+        where courseNo = #{courseNo}
     </update>
     <select id="login" resultType="com.gok.daohuai.pojo.Student">
         select *
@@ -34,7 +43,8 @@
     </select>
     <select id="selectAllCourse" resultType="com.gok.daohuai.pojo.Course">
         select *
-        from test.t_course where t_course.maxNum > t_course.applyNum
+        from test.t_course
+        where t_course.maxNum > t_course.applyNum
     </select>
     <select id="selectCourse" resultType="com.gok.daohuai.pojo.Course">
         select *
@@ -46,10 +56,29 @@
           and test.t_course_student.stuId = test.t_student.stuId
     </select>
 
+    <!--    添加了限制 人数 和 已经选择的不能再次选择-->
     <select id="getCourseByLimit" resultType="course">
         select *
         from test.t_course
         where courseNo not in (select courseNo from test.t_course_student where stuId = #{stuId})
           and t_course.maxNum > t_course.applyNum
+          and t_course.endTime > now()
     </select>
+    <select id="getCourseByLike" resultType="com.gok.daohuai.pojo.Course">
+        select *
+        from test.t_course
+        where courseName like #{courseName}
+    </select>
+    <select id="getCourseByTeacher" resultType="com.gok.daohuai.pojo.Course">
+        select *
+        from test.t_course
+        where test.t_course.teacherId in (select t_course.teacherId
+                                          from test.t_course,
+                                               test.t_teacher
+                                          where t_course.teacherId = t_teacher.teacherId
+                                            and teacherName like #{teacherName})
+
+    </select>
+
+
 </mapper>

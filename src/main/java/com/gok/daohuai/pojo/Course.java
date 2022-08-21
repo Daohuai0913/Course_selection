@@ -1,5 +1,7 @@
 package com.gok.daohuai.pojo;
 
+import java.time.LocalDate;
+
 public class Course {
     private String courseNo;
     private String courseName;
@@ -7,6 +9,10 @@ public class Course {
     private String applyBum;
     private long teacherId;
     private String desc;
+
+    private LocalDate createTime;
+
+    private String status;
 
     public Course() {
     }
@@ -18,6 +24,22 @@ public class Course {
         this.applyBum = applyBum;
         this.teacherId = teacherId;
         this.desc = desc;
+    }
+
+    public LocalDate getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDate createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCourseNo() {
@@ -77,6 +99,8 @@ public class Course {
                 ", applyBum='" + applyBum + '\'' +
                 ", teacherId=" + teacherId +
                 ", desc='" + desc + '\'' +
+                ", createTime=" + createTime +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

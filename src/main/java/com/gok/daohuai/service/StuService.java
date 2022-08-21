@@ -1,10 +1,8 @@
 package com.gok.daohuai.service;
 
 import com.gok.daohuai.mapper.StuMapper;
-import com.gok.daohuai.mapper.TeacherMapper;
 import com.gok.daohuai.pojo.Course;
 import com.gok.daohuai.pojo.Student;
-import com.gok.daohuai.pojo.Teacher;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,8 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Scanner;
 
@@ -141,16 +137,44 @@ public class StuService {
                 for (int j = 0; j < courses.size(); j++) {
                     System.out.println(courses.get(j));
                 }
+                System.out.println("可以根据老师姓名或者课程名查询");
+                System.out.println("请输入老师姓名或者课程名");
+                System.out.println("1 根据老师姓名查询");
+                System.out.println("2 根据课程名查询");
+                int choice = scanner.nextInt();
+                if (choice == 1) {
+                    System.out.println("输入老师姓名");
+                    String teacherName = scanner.next();
+                    List<Course> courses1 = sqlSession.getMapper(StuMapper.class).getCourseByTeacher(teacherName);
+                    for (Course course : courses1) {
+                        System.out.println(course);
+                    }
+                } else if (choice == 2) {
+                    System.out.println("输入课程名");
+                    String courseName = scanner.next();
+                    List<Course> courses2 = sqlSession.getMapper(StuMapper.class).getCourseByLike(courseName);
+                    for (Course course : courses2) {
+                        System.out.println(course);
+                    }
+
+
+                }
                 break;
             case 4:
                 System.out.println("选课");
-                System.out.println("请输入学号");
                 long id3 = student.getStudentId();
-//                System.out.println("请输入课程号");
-//                long courseId = scanner.nextLong();
-//                sqlSession.getMapper(StuMapper.class).choseCourse(id3, courseId);
+//                先展示没有被选择的课程 或者没有重复的课程 没有截止 课程存在的情况下的课程
                 List<Course> courseList = sqlSession.getMapper(StuMapper.class).getCourseByLimit(id3);
                 System.out.println(courseList);
+                if (courseList.size() == 0) {
+                    System.out.println("没有可选课程");
+                } else {
+                    System.out.println("请输入课程Id");
+                    long courseId = scanner.nextLong();
+                    sqlSession.getMapper(StuMapper.class).insertCourse(courseId, id3);
+                    sqlSession.getMapper(StuMapper.class).updateApplyNum(courseId);
+                }
+
 
 
                 break;
