@@ -1,5 +1,6 @@
 package com.gok.daohuai.service;
 
+import com.gok.daohuai.mapper.CourseMapper;
 import com.gok.daohuai.mapper.TeacherMapper;
 import com.gok.daohuai.pojo.Course;
 import com.gok.daohuai.pojo.Teacher;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,6 +24,10 @@ public class TeacherService {
     Scanner scanner = new Scanner(System.in);
 
     Teacher teacher = new Teacher();
+
+    private TeacherMapper teacherMapper;
+
+    private CourseMapper courseMapper;
 
     public TeacherService() throws IOException {
     }
@@ -52,6 +58,10 @@ public class TeacherService {
                             System.out.println("4 课程详情");
                             System.out.println("5 课程信息修改");
                             System.out.println("6 退出登陆");
+                            System.out.println("7 开课");
+                            System.out.println("8 打分");
+                            System.out.println("9 查看学生");
+                            System.out.println("10 分数修改");
                             int choice2 = sc.nextInt();
                             operation(choice2);
 
@@ -111,7 +121,7 @@ public class TeacherService {
             teacher.setRealName(teachers.get(0).getRealName());
             teacher.setGender(teachers.get(0).getGender());
             teacher.setTeacherId(teachers.get(0).getTeacherId());
-        }else {
+        } else {
             return 0;
         }
 //        sqlSession.getMapper(TeacherMapper.class).login(teacherName, password);
@@ -134,19 +144,20 @@ public class TeacherService {
                     System.out.println("课程描述");
                     String desc = scanner.nextLine();
                     System.out.println("课程人数");
-                    int maxNum = scanner.nextInt();
+                    String maxNum = String.valueOf(scanner.nextInt());
                     System.out.println("课程申请人数");
-                    int applyNum = scanner.nextInt();
-//                    System.out.println("课程老师id");
-//                    long teacherId = scanner.nextLong();
+                    String applyNum = String.valueOf(scanner.nextInt());
                     long teacherId = teacher.getTeacherId();
-                    sqlSession.getMapper(TeacherMapper.class).insertClass(courseName, maxNum, applyNum, teacherId, desc);
+                    LocalDate date = LocalDate.now();
+                    LocalDate date1 = date.plusDays(7);
+                    courseMapper.insert(new Course(courseName, maxNum, applyNum, teacherId, desc, date, date1, 0));
+
+
                     break;
                 case 3:
                     System.out.println("已发布课程");
-//                    System.out.println("发布课程的老师id");
-//                    long teacherId2 = scanner.nextLong();
                     long teacherId2 = teacher.getTeacherId();
+                    System.out.println("请输入课程状态 0选课中、1选课结束、2授课中、3已结课");
                     List<Course> teacherList = sqlSession.getMapper(TeacherMapper.class).getcourseList(teacherId2);
                     for (int j = 0; j < teacherList.size(); j++) {
                         System.out.println(teacherList.get(j));
@@ -182,6 +193,40 @@ public class TeacherService {
                 case 6:
                     System.out.println("退出");
                     flag = false;
+                    break;
+                case 7:
+                    System.out.println("开课");
+                    System.out.println("已结束的课程");
+                    courseMapper.getCourseInEnd();
+                    System.out.println("请输入课程id");
+                    long courseId3 = scanner.nextLong();
+                    courseMapper.updateStatus(courseId3);
+                    break;
+                case 8:
+                    System.out.println("打分");
+                    System.out.println("授课中的课程");
+                    courseMapper.getCourseInStart();
+                    System.out.println("请输入课程id");
+                    String courseId4 = String.valueOf(scanner.nextLong());
+                    System.out.println("请输入学生id");
+                    long studentId = scanner.nextLong();
+                    System.out.println("请输入分数");
+                    int score = scanner.nextInt();
+                    courseMapper.insertScore(courseId4, String.valueOf(studentId), score);
+                    break;
+
+                case 9:
+                    System.out.println("查看学生");
+                    break;
+                case 10:
+                    System.out.println("分数修改");
+                    System.out.println("输入课程id");
+                    String courseId5 = String.valueOf(scanner.nextLong());
+                    System.out.println("输入学生id");
+                    long studentId2 = scanner.nextLong();
+                    System.out.println("输入分数");
+                    int score2 = scanner.nextInt();
+                    courseMapper.updateScore(courseId5, String.valueOf(studentId2), score2);
                     break;
                 default:
                     System.out.println("please input 1,2,3,4,5,6");

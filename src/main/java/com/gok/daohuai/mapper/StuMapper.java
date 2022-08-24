@@ -1,12 +1,13 @@
 package com.gok.daohuai.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.gok.daohuai.pojo.Course;
 import com.gok.daohuai.pojo.Student;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface StuMapper {
+public interface StuMapper extends BaseMapper<Student> {
     void insertStudent(@Param("password") String password, @Param("age") int age, @Param("gender") String gender, @Param("address") String address, @Param("phone") String phone);
 
     List<Student> login(@Param("stuId") long stuId, @Param("password") String password);
